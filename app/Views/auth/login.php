@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 
 <head>
 
-    
     <meta charset="utf-8" />
     <title>Login - Perpustakaan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Aplikasi Perpustakaan" name="description" />
     <meta content="Themesdesign" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?= base_url('assets/images/favicon.ico') ?>">
@@ -19,7 +18,6 @@
     <!-- App Css-->
     <link href="<?= base_url('assets/css/app.min.css') ?>" id="app-style" rel="stylesheet" type="text/css" />
 
-
 </head>
 
 
@@ -29,7 +27,7 @@
 
             <div class="container">
 
-                <div class="home-btn"><a href="/" class="text-white router-link-active"><i
+                <div class="home-btn"><a href="<?= base_url('/') ?>" class="text-white router-link-active"><i
                             class="fas fa-home h2"></i></a></div>
 
 
@@ -41,33 +39,54 @@
 
 
                                     <div class="text-center">
-                                        <a href="index.html">
+                                        <a href="<?= base_url('/') ?>">
                                             <img src="<?= base_url('assets/images/perpus.png') ?>" height="130" alt="logo">
                                         </a>
                                     </div>
 
+                                    <?php
+                                    // Flash message: login gagal / belum login / logout sukses / validasi
+                                    $errorLogin = session()->getFlashdata('error_login');
+                                    $message    = session()->getFlashdata('message');
+                                    $errors     = session()->getFlashdata('errors');
+                                    ?>
 
-                                    <form class="form-horizontal mt-4 pt-2" action="index.html">
+                                    <?php if ($errorLogin): ?>
+                                        <div class="alert alert-danger mt-4 mb-0" role="alert">
+                                            <?= esc($errorLogin) ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if ($message): ?>
+                                        <div class="alert alert-success mt-4 mb-0" role="alert">
+                                            <?= esc($message) ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if ($errors): ?>
+                                        <div class="alert alert-danger mt-4 mb-0" role="alert">
+                                            <ul class="mb-0 ps-3">
+                                                <?php foreach ((array) $errors as $e): ?>
+                                                    <li><?= esc($e) ?></li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <form class="form-horizontal mt-4 pt-2" action="<?= base_url('login') ?>" method="post">
+                                        <?= csrf_field() ?>
 
                                         <div class="mb-3">
                                             <label for="username">Username</label>
-                                            <input type="text" class="form-control" id="username"
-                                                placeholder="Enter username">
+                                            <input type="text" class="form-control" id="username" name="username"
+                                                value="<?= esc(old('username')) ?>" placeholder="Masukkan username"
+                                                autocomplete="username" autofocus required>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="userpassword">Password</label>
-                                            <input type="password" class="form-control" id="userpassword"
-                                                placeholder="Enter password">
-                                        </div>
-
-                                        <div class="mb-3">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input"
-                                                        id="customControlInline">
-                                                    <label class="form-label"
-                                                        for="customControlInline">Ingat Saya</label>
-                                                </div>
+                                            <input type="password" class="form-control" id="userpassword" name="password"
+                                                placeholder="Masukkan password" autocomplete="current-password" required>
                                         </div>
 
                                         <div>
@@ -75,20 +94,15 @@
                                                 type="submit">Log In</button>
                                         </div>
 
-                                        <div class="mt-4 text-center">
-                                            <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock me-1"></i> Forgot your password?</a>
-                                        </div>
-    
-
                                     </form>
 
-                                  
+
                                 </div>
                             </div>
                         </div>
 
                         <div class="mt-5 text-center text-white">
-                            <p>© <script>document.write(new Date().getFullYear())</script> Morvin. Crafted with <i class="mdi mdi-book-open-page-variant"></i> by DONTOL</p>
+                            <p>© <script>document.write(new Date().getFullYear())</script> Perpustakaan. <i class="mdi mdi-book-open-page-variant"></i> Sistem Informasi Perpustakaan</p>
                         </div>
                     </div>
                 </div>
